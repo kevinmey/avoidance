@@ -115,6 +115,11 @@ class LocalPlannerVisualization {
 
   void publishRangeScan(const sensor_msgs::LaserScan& scan, const Eigen::Vector3f& newest_position) const;
 
+  // K: Function to set TF frame names
+  //    Originally "local_origin" and "fcu"
+  //    Changed to allow multi-vehicle tf setup
+  void setTFNames(std::string& tf_origin, std::string& tf_base_link);
+
  private:
   ros::Publisher local_pointcloud_pub_;
   ros::Publisher pointcloud_size_pub_;
@@ -138,6 +143,12 @@ class LocalPlannerVisualization {
   ros::Publisher range_scan_pub_;
 
   int path_length_ = 0;
+
+  // K: TF frame names for origin and base link
+  //    Originally "local_origin" and "fcu"
+  //    Changed to allow multi-vehicle tf setup
+  std::string tf_origin_;
+  std::string tf_base_link_;
 };
 }
 #endif  // LOCAL_PLANNER_VISUALIZATION_H

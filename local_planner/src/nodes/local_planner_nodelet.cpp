@@ -90,6 +90,9 @@ void LocalPlannerNodelet::InitializeNodelet() {
   mavros_pos_setpoint_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/mavros/setpoint_position/local", 10);
   mavros_obstacle_free_path_pub_ = nh_.advertise<mavros_msgs::Trajectory>("/mavros/trajectory/generated", 10);
   mavros_obstacle_distance_pub_ = nh_.advertise<sensor_msgs::LaserScan>("/mavros/obstacle/send", 10);
+  
+  // K: Pass TF frame names to visualizer
+  visualizer_.setTFNames(tf_origin_, tf_base_link_);
 
   // initialize visualization topics
   visualizer_.initializePublishers(nh_);
