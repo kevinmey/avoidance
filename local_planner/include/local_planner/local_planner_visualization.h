@@ -119,7 +119,7 @@ class LocalPlannerVisualization {
   //    Originally "local_origin" and "fcu"
   //    Changed to allow multi-vehicle tf setup
   void setTFNames(std::string& tf_origin, std::string& tf_base_link);
-
+ 
  private:
   ros::Publisher local_pointcloud_pub_;
   ros::Publisher pointcloud_size_pub_;

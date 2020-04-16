@@ -51,10 +51,20 @@ class WorldVisualizer {
   std::string world_path_;
   std::string nodelet_ns_;
 
+  // K: TF frame names for origin and base link
+  //    Originally "local_origin" and "fcu"
+  //    Changed to allow multi-vehicle tf setup
+  std::string tf_origin_;
+  std::string tf_base_link_;
+
   void loopCallback(const ros::TimerEvent& event);
 
  public:
   WorldVisualizer(const ros::NodeHandle& nh, const std::string& nodelet_ns);
+  
+  // K: Constructor to include TF frame names when initialized from local_planner_nodelet
+  WorldVisualizer(const ros::NodeHandle& nh, const std::string& nodelet_ns, 
+                  const std::string& tf_origin, const std::string& tf_base_link);
 
   /**
   * @brief      initializes all publishers used for local planner visualization

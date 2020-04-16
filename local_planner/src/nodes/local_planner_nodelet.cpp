@@ -66,12 +66,16 @@ void LocalPlannerNodelet::InitializeNodelet() {
   local_planner_.reset(new LocalPlanner());
   wp_generator_.reset(new WaypointGenerator());
   avoidance_node_.reset(new AvoidanceNode(nh_, nh_private_));
+  
+  // K: Moved params above WorldVisualizer constructor, need tf frame names
+  readParams();
 
 #ifndef DISABLE_SIMULATION
-  world_visualizer_.reset(new WorldVisualizer(nh_, nodelet::Nodelet::getName()));
+  // K: Pass tf frame names to modified constructor
+  //world_visualizer_.reset(new WorldVisualizer(nh_, nodelet::Nodelet::getName()));
+  world_visualizer_.reset(new WorldVisualizer(nh_, nodelet::Nodelet::getName(),
+                                              tf_origin_, tf_base_link_));
 #endif
-
-  readParams();
 
   tf_listener_ = new tf::TransformListener(ros::Duration(tf::Transformer::DEFAULT_CACHE_TIME), true);
 

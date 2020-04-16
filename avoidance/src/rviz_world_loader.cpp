@@ -20,6 +20,32 @@ WorldVisualizer::WorldVisualizer(const ros::NodeHandle& nh, const std::string& n
     world_string = "/world_name";
   }
   nh_.param<std::string>(world_string, world_path_, "");
+
+  tf_origin_ = "/odom_uav0";
+  tf_base_link_ = "/base_link_uav0";
+}
+
+// K: Constructor to include TF frame names when initialized from local_planner_nodelet
+WorldVisualizer::WorldVisualizer(const ros::NodeHandle& nh, const std::string& nodelet_ns,
+                                 const std::string& tf_origin, const std::string& tf_base_link)
+    : nh_(nh), nodelet_ns_(nodelet_ns) {
+  pose_sub_ = nh_.subscribe<const geometry_msgs::PoseStamped&>("/mavros/local_position/pose", 1,
+                                                               &WorldVisualizer::positionCallback, this);
+
+  world_pub_ = nh_.advertise<visualization_msgs::MarkerArray>("world", 1);
+  drone_pub_ = nh_.advertise<visualization_msgs::Marker>("drone", 1);
+  loop_timer_ = nh_.createTimer(ros::Duration(2.0), &WorldVisualizer::loopCallback, this);
+
+  std::string world_string;
+  if (!nodelet_ns_.empty()) {
+    world_string = nodelet_ns_ + "/world_name";
+  } else {
+    world_string = "/world_name";
+  }
+  nh_.param<std::string>(world_string, world_path_, "");
+
+  tf_origin_ = tf_origin;
+  tf_base_link_ = tf_base_link;
 }
 
 void WorldVisualizer::loopCallback(const ros::TimerEvent& event) {
@@ -128,7 +154,7 @@ int WorldVisualizer::visualizeRVIZWorld(const std::string& world_path) {
 
 int WorldVisualizer::visualizeDrone(const geometry_msgs::PoseStamped& pose) {
   visualization_msgs::Marker drone;
-  drone.header.frame_id = "local_origin";
+  drone.header.frame_id = tf_origin_;
   drone.header.stamp = ros::Time::now();
   drone.type = visualization_msgs::Marker::MESH_RESOURCE;
   drone.mesh_resource = "model://matrice_100/meshes/Matrice_100.dae";
