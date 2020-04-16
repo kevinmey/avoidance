@@ -257,6 +257,12 @@ class LocalPlannerNodelet : public nodelet::Nodelet {
 
   boost::recursive_mutex config_mutex_;
 
+  // K: TF frame names for origin and base link
+  //    Originally "local_origin" and "fcu"
+  //    Changed to allow multi-vehicle tf setup
+  std::string tf_origin_;
+  std::string tf_base_link_;
+
   /**
   * @brief     callaback for parameters dynamic reconfigure server
   * @param     config, struct with all the parameters

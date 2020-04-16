@@ -131,6 +131,10 @@ void LocalPlannerNodelet::readParams() {
   initializeCameraSubscribers(camera_topics);
 
   new_goal_ = true;
+
+  // K: Read TF frame names for origin and base link
+  nh_private_.param<std::string>(nodelet::Nodelet::getName() + "/tf_origin", tf_origin_, "/odom_uav0");
+  nh_private_.param<std::string>(nodelet::Nodelet::getName() + "/tf_base_link", tf_base_link_, "/base_link_uav0");
 }
 
 void LocalPlannerNodelet::initializeCameraSubscribers(std::vector<std::string>& camera_topics) {
@@ -424,9 +428,9 @@ void LocalPlannerNodelet::pointCloudCallback(const sensor_msgs::PointCloud2::Con
     std::lock_guard<std::mutex> tf_list_guard(buffered_transforms_mutex_);
     std::pair<std::string, std::string> transform_frames;
     transform_frames.first = msg->header.frame_id;
-    transform_frames.second = "/local_origin";
+    transform_frames.second = tf_origin_;
     buffered_transforms_.push_back(transform_frames);
-    transform_frames.second = "/fcu";
+    transform_frames.second = tf_base_link_;
     buffered_transforms_.push_back(transform_frames);
     cameras_[index].transform_registered_ = true;
   }
@@ -502,10 +506,10 @@ void LocalPlannerNodelet::pointCloudTransformThread(int index) {
         tf::StampedTransform cloud_transform;
         tf::StampedTransform fcu_transform;
 
-        if (tf_buffer_.getTransform(cameras_[index].untransformed_cloud_.header.frame_id, "/local_origin",
+        if (tf_buffer_.getTransform(cameras_[index].untransformed_cloud_.header.frame_id, tf_origin_,
                                     pcl_conversions::fromPCL(cameras_[index].untransformed_cloud_.header.stamp),
                                     cloud_transform) &&
-            tf_buffer_.getTransform(cameras_[index].untransformed_cloud_.header.frame_id, "/fcu",
+            tf_buffer_.getTransform(cameras_[index].untransformed_cloud_.header.frame_id, tf_base_link_,
                                     pcl_conversions::fromPCL(cameras_[index].untransformed_cloud_.header.stamp),
                                     fcu_transform)) {
           // remove nan padding and compute fov
@@ -518,7 +522,7 @@ void LocalPlannerNodelet::pointCloudTransformThread(int index) {
           // transform cloud to /local_origin frame
           pcl_ros::transformPointCloud(cameras_[index].untransformed_cloud_, cameras_[index].transformed_cloud_,
                                        cloud_transform);
-          cameras_[index].transformed_cloud_.header.frame_id = "/local_origin";
+          cameras_[index].transformed_cloud_.header.frame_id = tf_origin_;
           cameras_[index].transformed_cloud_.header.stamp = cameras_[index].untransformed_cloud_.header.stamp;
 
           cameras_[index].transformed_ = true;
