@@ -66,6 +66,12 @@ class LocalPlanner {
   Histogram polar_histogram_ = Histogram(ALPHA_RES);
   Histogram to_fcu_histogram_ = Histogram(ALPHA_RES);
   Eigen::MatrixXf cost_matrix_;
+  
+  // K: TF frame names for origin and base link
+  //    Originally "local_origin" and "fcu"
+  //    Changed to allow multi-vehicle tf setup
+  std::string tf_origin_;
+  std::string tf_base_link_;
 
   /**
   * @brief     fills message to send histogram to the FCU
@@ -107,6 +113,8 @@ class LocalPlanner {
   std::vector<pcl::PointCloud<pcl::PointXYZ>> original_cloud_vector_;
 
   LocalPlanner();
+  // K: Constructor to include TF frame names when initialized from local_planner_nodelet
+  LocalPlanner(const std::string& tf_origin, const std::string& tf_base_link);
   ~LocalPlanner();
 
   /**

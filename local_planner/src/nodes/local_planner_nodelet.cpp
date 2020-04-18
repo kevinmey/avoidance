@@ -63,7 +63,9 @@ void LocalPlannerNodelet::InitializeNodelet() {
   nh_ = ros::NodeHandle("~");
   nh_private_ = ros::NodeHandle("");
 
-  local_planner_.reset(new LocalPlanner());
+  // K: Pass tf frame names to modified constructor
+  // old: local_planner_.reset(new LocalPlanner());
+  local_planner_.reset(new LocalPlanner(tf_origin_, tf_base_link_));
   wp_generator_.reset(new WaypointGenerator());
   avoidance_node_.reset(new AvoidanceNode(nh_, nh_private_));
   
@@ -72,7 +74,7 @@ void LocalPlannerNodelet::InitializeNodelet() {
 
 #ifndef DISABLE_SIMULATION
   // K: Pass tf frame names to modified constructor
-  //world_visualizer_.reset(new WorldVisualizer(nh_, nodelet::Nodelet::getName()));
+  // old: world_visualizer_.reset(new WorldVisualizer(nh_, nodelet::Nodelet::getName()));
   world_visualizer_.reset(new WorldVisualizer(nh_, nodelet::Nodelet::getName(),
                                               tf_origin_, tf_base_link_));
 #endif

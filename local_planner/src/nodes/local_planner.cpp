@@ -8,7 +8,17 @@
 
 namespace avoidance {
 
-LocalPlanner::LocalPlanner() : star_planner_(new StarPlanner()) {}
+LocalPlanner::LocalPlanner() : star_planner_(new StarPlanner()) {
+  tf_origin_ = "/odom_uav0";
+  tf_base_link_ = "/base_link_uav0";
+}
+
+// K: Constructor to include TF frame names when initialized from local_planner_nodelet
+LocalPlanner::LocalPlanner(const std::string& tf_origin, const std::string& tf_base_link) 
+    : star_planner_(new StarPlanner()) {
+  tf_origin_ = tf_origin;
+  tf_base_link_ = tf_base_link;
+}
 
 LocalPlanner::~LocalPlanner() {}
 
@@ -150,7 +160,7 @@ void LocalPlanner::determineStrategy() {
 void LocalPlanner::updateObstacleDistanceMsg(Histogram hist) {
   sensor_msgs::LaserScan msg = {};
   msg.header.stamp = ros::Time::now();
-  msg.header.frame_id = "local_origin";
+  msg.header.frame_id = tf_origin_;
   msg.angle_increment = static_cast<double>(ALPHA_RES) * M_PI / 180.0;
   msg.range_min = min_sensor_range_;
   msg.range_max = max_sensor_range_;
@@ -175,7 +185,7 @@ void LocalPlanner::updateObstacleDistanceMsg(Histogram hist) {
 void LocalPlanner::updateObstacleDistanceMsg() {
   sensor_msgs::LaserScan msg = {};
   msg.header.stamp = ros::Time::now();
-  msg.header.frame_id = "local_origin";
+  msg.header.frame_id = tf_origin_;
   msg.angle_increment = static_cast<double>(ALPHA_RES) * M_PI / 180.0;
   msg.range_min = min_sensor_range_;
   msg.range_max = max_sensor_range_;
