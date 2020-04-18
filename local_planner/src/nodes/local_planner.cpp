@@ -46,7 +46,7 @@ void LocalPlanner::dynamicReconfigureSetParams(avoidance::LocalPlannerNodeConfig
 
   star_planner_->dynamicReconfigureSetStarParams(config, level);
 
-  ROS_DEBUG("\033[0;35m[OA] Dynamic reconfigure call \033[0m");
+  ROS_INFO("\033[0;35m[OA] Dynamic reconfigure call \033[0m");
 }
 
 void LocalPlanner::setGoal(const Eigen::Vector3f& goal) {
@@ -70,7 +70,7 @@ Eigen::Vector3f LocalPlanner::getGoal() const { return goal_; }
 void LocalPlanner::applyGoal() { star_planner_->setGoal(goal_); }
 
 void LocalPlanner::runPlanner() {
-  ROS_INFO("\033[1;35m[OA] Planning started, using %i cameras\n \033[0m",
+  ROS_DEBUG("\033[1;35m[OA] Planning started, using %i cameras\n \033[0m",
            static_cast<int>(original_cloud_vector_.size()));
 
   float elapsed_since_last_processing = static_cast<float>((ros::Time::now() - last_pointcloud_process_time_).toSec());
