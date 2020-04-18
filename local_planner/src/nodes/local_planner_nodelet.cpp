@@ -335,7 +335,20 @@ void LocalPlannerNodelet::clickedPointCallback(const geometry_msgs::PointStamped
 void LocalPlannerNodelet::clickedGoalCallback(const geometry_msgs::PoseStamped& msg) {
   new_goal_ = true;
   prev_goal_position_ = goal_position_;
-  goal_position_ = toEigen(msg.pose.position);
+
+  // K: Clicked goal will come in in "world" frame (from RVIZ)
+  //    local_planner does not transform this to its local origin (tf_origin_ = "odom_uavX"), only uses contained data (x,y)
+  //    Transform message from "world" to tf_origin_. Data should now be correct.
+  geometry_msgs::PoseStamped transformed_msg = msg;
+  if (tf_listener_->canTransform(tf_origin_, "world", ros::Time(0))) {
+    try {
+      tf_listener_->transformPose(tf_origin_, msg, transformed_msg);
+    } catch (tf::TransformException& ex) {
+      ROS_ERROR("Received an exception trying to get transform: %s", ex.what());
+    }
+  }
+
+  goal_position_ = toEigen(transformed_msg.pose.position);
   /* Selecting the goal from Rviz sets x and y. Get the z coordinate set in
    * the launch file */
   goal_position_.z() = local_planner_->getGoal().z();
