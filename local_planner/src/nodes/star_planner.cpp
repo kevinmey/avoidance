@@ -146,7 +146,7 @@ void StarPlanner::buildLookAheadTree() {
   }
   path_node_positions_.push_back(tree_[0].getPosition());
 
-  ROS_INFO("\033[0;35m[SP]Tree (%lu nodes, %lu path nodes, %lu expanded) calculated in %2.2fms.\033[0m", tree_.size(),
+  ROS_DEBUG("\033[0;35m[SP]Tree (%lu nodes, %lu path nodes, %lu expanded) calculated in %2.2fms.\033[0m", tree_.size(),
            path_node_positions_.size(), closed_set_.size(),
            static_cast<double>((std::clock() - start_time) / static_cast<double>(CLOCKS_PER_SEC / 1000)));
 

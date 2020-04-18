@@ -383,7 +383,7 @@ void WaypointGenerator::adaptSpeed(float dt) {
 
   output_.adapted_goto_position = position_ + pose_to_wp;
 
-  ROS_INFO("[WG] Speed adapted WP: [%f %f %f].", output_.adapted_goto_position.x(), output_.adapted_goto_position.y(),
+  ROS_DEBUG("[WG] Speed adapted WP: [%f %f %f].", output_.adapted_goto_position.x(), output_.adapted_goto_position.y(),
            output_.adapted_goto_position.z());
 }
 
@@ -403,7 +403,7 @@ void WaypointGenerator::getPathMsg() {
     smoothWaypoint(dt);
   }
 
-  ROS_INFO("[WG] Final waypoint: [%f %f %f]. %f %f %f \n", output_.smoothed_goto_position.x(),
+  ROS_DEBUG("[WG] Final waypoint: [%f %f %f]. %f %f %f \n", output_.smoothed_goto_position.x(),
            output_.smoothed_goto_position.y(), output_.smoothed_goto_position.z(), output_.linear_velocity_wp.x(),
            output_.linear_velocity_wp.y(), output_.linear_velocity_wp.z());
   createPoseMsg(output_.position_wp, output_.orientation_wp, output_.smoothed_goto_position, setpoint_yaw_rad_);
@@ -445,7 +445,7 @@ bool WaypointGenerator::isAltitudeChange() {
         return false;
       }
     }
-    ROS_INFO("\033[1;35m[OA] Reach height first \033[0m");
+    ROS_DEBUG("\033[1;35m[OA] Reach height first \033[0m");
     return true;
   }
 
