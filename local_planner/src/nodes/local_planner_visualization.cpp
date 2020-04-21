@@ -201,7 +201,7 @@ void LocalPlannerVisualization::publishTree(const std::vector<TreeNode>& tree, c
   tree_marker.type = visualization_msgs::Marker::LINE_LIST;
   tree_marker.action = visualization_msgs::Marker::ADD;
   tree_marker.pose.orientation.w = 1.0;
-  tree_marker.scale.x = 0.05;
+  tree_marker.scale.x = 0.02;
   tree_marker.color.a = 0.8;
   tree_marker.color.r = 0.4;
   tree_marker.color.g = 0.0;
@@ -214,7 +214,7 @@ void LocalPlannerVisualization::publishTree(const std::vector<TreeNode>& tree, c
   path_marker.type = visualization_msgs::Marker::LINE_LIST;
   path_marker.action = visualization_msgs::Marker::ADD;
   path_marker.pose.orientation.w = 1.0;
-  path_marker.scale.x = 0.05;
+  path_marker.scale.x = 0.04;
   path_marker.color.a = 0.8;
   path_marker.color.r = 1.0;
   path_marker.color.g = 0.0;
