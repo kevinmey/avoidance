@@ -87,10 +87,10 @@ void LocalPlannerNodelet::InitializeNodelet() {
   velocity_sub_ = nh_.subscribe<const geometry_msgs::TwistStamped&>("/mavros/local_position/velocity_local", 1,
                                                                     &LocalPlannerNodelet::velocityCallback, this);
   state_sub_ = nh_.subscribe("/mavros/state", 1, &LocalPlannerNodelet::stateCallback, this);
-  clicked_point_sub_ = nh_.subscribe("/clicked_point", 1, &LocalPlannerNodelet::clickedPointCallback, this);
-  clicked_goal_sub_ = nh_.subscribe("/move_base_simple/goal", 1, &LocalPlannerNodelet::clickedGoalCallback, this);
+  clicked_point_sub_ = nh_.subscribe("clicked_point", 1, &LocalPlannerNodelet::clickedPointCallback, this);
+  clicked_goal_sub_ = nh_.subscribe("move_base_simple/goal", 1, &LocalPlannerNodelet::clickedGoalCallback, this);
   fcu_input_sub_ = nh_.subscribe("/mavros/trajectory/desired", 1, &LocalPlannerNodelet::fcuInputGoalCallback, this);
-  goal_topic_sub_ = nh_.subscribe("/input/goal_position", 1, &LocalPlannerNodelet::updateGoalCallback, this);
+  goal_topic_sub_ = nh_.subscribe("input/goal_position", 1, &LocalPlannerNodelet::updateGoalCallback, this);
   distance_sensor_sub_ = nh_.subscribe("/mavros/altitude", 1, &LocalPlannerNodelet::distanceSensorCallback, this);
   mavros_vel_setpoint_pub_ = nh_.advertise<geometry_msgs::Twist>("/mavros/setpoint_velocity/cmd_vel_unstamped", 10);
   mavros_pos_setpoint_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/mavros/setpoint_position/local", 10);
