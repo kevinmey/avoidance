@@ -99,19 +99,19 @@ void TransformBuffer::print(const log_level& level, const std::string& msg) cons
   if (ros::Time::now() - startup_time_ > ros::Duration(3)) {
     switch (level) {
       case error: {
-        ROS_ERROR("%s", msg.c_str());
+        ROS_ERROR_THROTTLE(1,"%s", msg.c_str());
         break;
       }
       case warn: {
-        ROS_WARN("%s", msg.c_str());
+        ROS_WARN_THROTTLE(1,"%s", msg.c_str());
         break;
       }
       case info: {
-        ROS_INFO("%s", msg.c_str());
+        ROS_INFO_THROTTLE(1,"%s", msg.c_str());
         break;
       }
       case debug: {
-        ROS_DEBUG("%s", msg.c_str());
+        ROS_DEBUG_THROTTLE(1,"%s", msg.c_str());
         break;
       }
     }
