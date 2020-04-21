@@ -27,7 +27,7 @@ dictitems:
         state: []
       parent: 0
       smooth_cost_param_: 1.5
-      smoothing_margin_degrees_: 40.0
+      smoothing_margin_degrees_: 5.0
       smoothing_speed_xy_: 10.0
       smoothing_speed_z_: 3.0
       state: true
@@ -44,7 +44,7 @@ dictitems:
   n_expanded_nodes_: 10
   no_progress_slope_: -0.0007
   smooth_cost_param_: 1.5
-  smoothing_margin_degrees_: 40.0
+  smoothing_margin_degrees_: 5.0
   smoothing_speed_xy_: 10.0
   smoothing_speed_z_: 3.0
   timeout_critical_: 0.5
