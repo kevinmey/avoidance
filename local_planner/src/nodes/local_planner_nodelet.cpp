@@ -142,8 +142,8 @@ void LocalPlannerNodelet::readParams() {
   new_goal_ = true;
 
   // K: Read TF frame names for origin and base link
-  nh_private_.param<std::string>(nodelet::Nodelet::getName() + "/tf_origin", tf_origin_, "/odom_uav0");
-  nh_private_.param<std::string>(nodelet::Nodelet::getName() + "/tf_base_link", tf_base_link_, "/base_link_uav0");
+  nh_private_.param<std::string>(nodelet::Nodelet::getName() + "/tf_origin", tf_origin_, "odom_uav0");
+  nh_private_.param<std::string>(nodelet::Nodelet::getName() + "/tf_base_link", tf_base_link_, "base_link_uav0");
 }
 
 void LocalPlannerNodelet::initializeCameraSubscribers(std::vector<std::string>& camera_topics) {
@@ -321,9 +321,9 @@ void LocalPlannerNodelet::calculateWaypoints(bool hover) {
 
   // send waypoints to mavros
   mavros_msgs::Trajectory obst_free_path = {};
-  transformToTrajectory(obst_free_path, toPoseStamped(result.position_wp, result.orientation_wp),
+  transformToTrajectory(obst_free_path, toPoseStampedWithFrame(result.position_wp, result.orientation_wp, tf_origin_),
                         toTwist(result.linear_velocity_wp, result.angular_velocity_wp));
-  mavros_pos_setpoint_pub_.publish(toPoseStamped(result.position_wp, result.orientation_wp));
+  mavros_pos_setpoint_pub_.publish(toPoseStampedWithFrame(result.position_wp, result.orientation_wp, tf_origin_));
 
   mavros_obstacle_free_path_pub_.publish(obst_free_path);
 }

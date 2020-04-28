@@ -461,6 +461,15 @@ inline geometry_msgs::PoseStamped toPoseStamped(const Eigen::Vector3f& ev3, cons
   return gmps;
 }
 
+inline geometry_msgs::PoseStamped toPoseStampedWithFrame(const Eigen::Vector3f& ev3, const Eigen::Quaternionf& eq, const std::string& frame_id) {
+  geometry_msgs::PoseStamped gmps;
+  gmps.header.stamp = ros::Time::now();
+  gmps.header.frame_id = frame_id;
+  gmps.pose.position = toPoint(ev3);
+  gmps.pose.orientation = toQuaternion(eq);
+  return gmps;
+}
+
 }  // namespace avoidance
 
 #endif  // COMMON_H
