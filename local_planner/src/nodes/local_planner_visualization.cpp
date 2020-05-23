@@ -202,7 +202,7 @@ void LocalPlannerVisualization::publishTree(const std::vector<TreeNode>& tree, c
   tree_marker.action = visualization_msgs::Marker::ADD;
   tree_marker.pose.orientation.w = 1.0;
   tree_marker.scale.x = 0.02;
-  tree_marker.color.a = 0.8;
+  tree_marker.color.a = 0.2;
   tree_marker.color.r = 0.4;
   tree_marker.color.g = 0.0;
   tree_marker.color.b = 0.6;
@@ -215,7 +215,7 @@ void LocalPlannerVisualization::publishTree(const std::vector<TreeNode>& tree, c
   path_marker.action = visualization_msgs::Marker::ADD;
   path_marker.pose.orientation.w = 1.0;
   path_marker.scale.x = 0.04;
-  path_marker.color.a = 0.8;
+  path_marker.color.a = 0.2;
   path_marker.color.r = 1.0;
   path_marker.color.g = 0.0;
   path_marker.color.b = 0.0;
@@ -251,7 +251,7 @@ void LocalPlannerVisualization::publishGoal(const geometry_msgs::Point& goal) co
   m.scale.x = 0.5;
   m.scale.y = 0.5;
   m.scale.z = 0.5;
-  m.color.a = 1.0;
+  m.color.a = 0.3;
   m.color.r = 1.0;
   m.color.g = 1.0;
   m.color.b = 0.0;
@@ -399,7 +399,7 @@ void LocalPlannerVisualization::publishPaths(const Eigen::Vector3f& last_positio
   path_actual_marker.action = visualization_msgs::Marker::ADD;
   path_actual_marker.pose.orientation.w = 1.0;
   path_actual_marker.scale.x = 0.03;
-  path_actual_marker.color.a = 1.0;
+  path_actual_marker.color.a = 0.2;
   path_actual_marker.color.r = 0.0;
   path_actual_marker.color.g = 1.0;
   path_actual_marker.color.b = 0.0;
@@ -417,7 +417,7 @@ void LocalPlannerVisualization::publishPaths(const Eigen::Vector3f& last_positio
   path_waypoint_marker.action = visualization_msgs::Marker::ADD;
   path_waypoint_marker.pose.orientation.w = 1.0;
   path_waypoint_marker.scale.x = 0.02;
-  path_waypoint_marker.color.a = 1.0;
+  path_waypoint_marker.color.a = 0.2;
   path_waypoint_marker.color.r = 1.0;
   path_waypoint_marker.color.g = 0.0;
   path_waypoint_marker.color.b = 0.0;
@@ -435,7 +435,7 @@ void LocalPlannerVisualization::publishPaths(const Eigen::Vector3f& last_positio
   path_adapted_waypoint_marker.action = visualization_msgs::Marker::ADD;
   path_adapted_waypoint_marker.pose.orientation.w = 1.0;
   path_adapted_waypoint_marker.scale.x = 0.02;
-  path_adapted_waypoint_marker.color.a = 1.0;
+  path_adapted_waypoint_marker.color.a = 0.2;
   path_adapted_waypoint_marker.color.r = 0.0;
   path_adapted_waypoint_marker.color.g = 0.0;
   path_adapted_waypoint_marker.color.b = 1.0;

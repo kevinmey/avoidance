@@ -342,7 +342,7 @@ void LocalPlannerNodelet::clickedGoalCallback(const geometry_msgs::PoseStamped& 
   geometry_msgs::PoseStamped transformed_msg = msg;
   if (tf_listener_->canTransform(tf_origin_, "world", ros::Time(0))) {
     try {
-      tf_listener_->transformPose(tf_origin_, msg, transformed_msg);
+      tf_listener_->transformPose(tf_origin_, ros::Time(0), msg, "world", transformed_msg);
     } catch (tf::TransformException& ex) {
       ROS_ERROR("Received an exception trying to get transform: %s", ex.what());
     }
