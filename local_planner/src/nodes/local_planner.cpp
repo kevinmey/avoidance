@@ -47,7 +47,7 @@ void LocalPlanner::dynamicReconfigureSetParams(avoidance::LocalPlannerNodeConfig
   children_per_node_ = config.children_per_node_;
   n_expanded_nodes_ = config.n_expanded_nodes_;
   smoothing_margin_degrees_ = static_cast<float>(config.smoothing_margin_degrees_);
-
+  
   if (getGoal().z() != config.goal_z_param) {
     auto goal = getGoal();
     goal.z() = config.goal_z_param;
